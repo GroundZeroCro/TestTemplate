@@ -1,12 +1,12 @@
 package com.groundzero.testing_mvp.data.post
 
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
 
-class PostRepository {
+open class PostRepository {
 
 
     private val posts = mutableListOf<Post>()
-    private val postsSubject = PublishSubject.create<List<Post>>()
+    private var postsSubject: BehaviorSubject<MutableList<Post>>
 
     init {
         posts.add(
@@ -21,9 +21,10 @@ class PostRepository {
                         "Lime oils are often used in perfumes, used for cleaning, and used for aromatherapy."
             )
         )
+        postsSubject = BehaviorSubject.createDefault(posts)
     }
 
-    fun getPostsSubject(): PublishSubject<List<Post>> {
+    open fun getPostsSubject(): BehaviorSubject<MutableList<Post>> {
         return postsSubject
     }
 
@@ -33,11 +34,6 @@ class PostRepository {
     }
 
     fun updateSubject() {
-        postsSubject.onNext(posts)
-    }
-
-    fun removePost(post: Post) {
-        posts.remove(post)
         postsSubject.onNext(posts)
     }
 }

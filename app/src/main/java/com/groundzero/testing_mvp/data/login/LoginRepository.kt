@@ -13,4 +13,8 @@ class LoginRepository {
     fun getCredentials(): List<Credential> {
         return credentials
     }
+
+    fun addCredentials(credential: Credential) {
+        credentials.add(credential)
+    }
 }
